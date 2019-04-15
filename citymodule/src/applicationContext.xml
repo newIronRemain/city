@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath:db.properties" />
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- 加载连接池 -->
+        <property name="dataSource" ref="dataSource1" />
+        <property name="hibernateProperties">
+            <value>
+                hibernate.show_sql=true
+                hibernate.dialect=org.hibernate.dialect.Oracle9iDialect
+                hibernate.hbm2ddl.auto=update
+                hibernate.format_sql=true
+            </value>
+        </property>
+
+        <!-- 加载hibernate的Xxx.hbm.xml配置文件 -->
+        <property name="mappingResources">
+            <list>
+                <value>com/pojo/User.hbm.xml</value>
+                <value>com/pojo/City.hbm.xml</value>
+                <value>com/pojo/SysplDistrict.hbm.xml</value>
+
+            </list>
+        </property>
+
+    </bean>
+    <!-- 配置连接池 -->
+    <bean id="dataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.user}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+
+    <!-- 声明dao -->
+    <!--<bean id="userDao" class="cn.itheima.dao.UserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>-->
+
+    <!-- 声明service -->
+   <!-- <bean id="userService" class="cn.itheima.service.UserServiceImpl">
+        <property name="userDao" ref="userDao" />
+    </bean>-->
+
+    <!-- 声明式事务管理 -->
+    <!-- 事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!-- 通知 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="add*"/>
+            <tx:method name="update*"/>
+            <tx:method name="del*"/>
+            <tx:method name="save*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 切面 -->
+    <aop:config>
+        <aop:pointcut expression="execution(* com.service.*..*(..))" id="mypointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="mypointcut"/>
+    </aop:config>
+
+
+    <!-- 配置action -->
+    <!--<bean id="userAction" class="cn.itheima.action.UserAction" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>-->
+
+    <import resource="com/config/applicationContext-service.xml"/>
+    <import resource="com/config/applicationContext-action.xml"/>
+    <import resource="com/config/applicationContext-dao.xml"/>
+</beans>

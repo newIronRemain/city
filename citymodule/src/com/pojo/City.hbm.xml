@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<!-- 
+	name   实体类的全路径
+	table  映射的表的名称
+	catalog 数据库的名称
+	 -->
+	<class name="com.pojo.City" table="t_city_lz_test" polymorphism="implicit">
+		<!-- 主键属性
+			name  实体类主键属性名称
+			column 数据库主键属性字段
+		-->
+		<id name="id" column="id"  >
+			<!-- 主键自动生成策略 -->
+			<generator class="native"></generator>
+		</id>
+		
+		<!-- 其他属性
+			name  实体类属性名称
+			column 数据库对应的字段名称
+		 -->
+		<property name="name" column="name" length="255"></property>
+		<property name="type" column="type" length="40"></property>
+		<property name="code" column="code" length="40"></property>
+		<property name="parentcode" column="parentcode" length="40"></property>
+		<property name="parenttype" column="parenttype" length="40"></property>
+		<many-to-one name="city"
+					 class="com.pojo.City" lazy="false"
+					 fetch="select">
+			<column name="parentid" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>
