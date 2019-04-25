@@ -14,6 +14,13 @@
 <div style="width: 800px;margin: 0px auto;">
     <button onclick="getRigthValues()"> 获取右侧数据</button>
     <button onclick="getExchangeValues()"> 获取右侧改变数据</button>
+    <!-- method="post" action="/city/city_syncCity.action"-->
+    <div>
+        子节点（city）数据ids<input type="text" id="cityIds" name="cityIds"><br>
+        父节点（district）id<input type="text" id="districtId" name="districtId"><br>
+        类型（type）id<input type="text" id="type" name="type"><br>
+        <button  onclick="syncCity()">同步</button>
+    </div>
 </div>
 <div class="muls-box">
     <div class="muls-left-box">
@@ -42,6 +49,7 @@
             </select>
         </div>
     </div>
+
 
 </div>
 <br />
@@ -75,12 +83,29 @@
     });
 
     function getRigthValues(){
-        alert(JSON.stringify($(document).zbMulSelect('getData')));
+        //alert(JSON.stringify($(document).zbMulSelect('getData')));
+        $("#cityIds").val(JSON.stringify($(document).zbMulSelect('getData')))
     }
 
     function getExchangeValues(){
         alert(JSON.stringify($(document).zbMulSelect('getExchange')));
     }
 
+    function syncCity(){
+        var cityIds = JSON.stringify($(document).zbMulSelect('getData'));
+        var districtId = $("#districtId").val();
+        var type = $("#type").val();
+
+        alert(cityIds)
+        // alert(districtId)
+        // alert(type)
+
+        $.post("/city/city_syncCity.action", { "cityIds": cityIds,"districtId":districtId, "cityType":type},
+            function(data){
+                alert(data.success);
+                alert(data.msg)
+            }, "json");
+
+    }
 </script>
 </html>

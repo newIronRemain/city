@@ -19,7 +19,9 @@ public class CityServiceImpl implements ICityService {
     @Override
     public List <TreeModel> getCityTree() {
 
-        List <City> cityList = cityDao.getAllCity();
+        //List <City> cityList = cityDao.getAllCity();
+
+        List <City> cityList = cityDao.findByHql ( "from City order by name asc" );
 
         List <TreeModel> list = new ArrayList <TreeModel> (  );
 
@@ -66,6 +68,11 @@ public class CityServiceImpl implements ICityService {
     @Override
     public City find(String name, String code, String type) {
         return cityDao.find( name,  code,  type);
+    }
+
+    @Override
+    public List<City> findByHql(String sql) {
+        return cityDao.findByHql ( sql );
     }
 
 

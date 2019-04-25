@@ -19,8 +19,8 @@ public class DistrictServiceImpl implements IDistrictService {
 
     @Override
     public List <TreeModel> getDistrictTree() {
-        List <SysplDistrict> districtList = districtDao.getAllDistrict();
-
+        //List <SysplDistrict> districtList = districtDao.getAllDistrict();
+        List <SysplDistrict> districtList = districtDao.findByHql ( "from SysplDistrict order by districtName asc" );
         List <TreeModel> list = new ArrayList <TreeModel> (  );
 
         for (SysplDistrict district : districtList) {
@@ -51,6 +51,31 @@ public class DistrictServiceImpl implements IDistrictService {
         }
 
         return list;
+    }
+
+    @Override
+    public List <SysplDistrict> findBySql(String sql) {
+        return districtDao.findByHql ( sql );
+    }
+
+    @Override
+    public SysplDistrict findById(String districtId) {
+        return districtDao.findById(districtId);
+    }
+
+    @Override
+    public void save(List <SysplDistrict> districtList) {
+         districtDao.save ( districtList );
+    }
+
+    @Override
+    public List <SysplDistrict> findByParentId(Long districtId) {
+        return districtDao.findByParentId(districtId);
+    }
+
+    @Override
+    public List <SysplDistrict> findByParent(SysplDistrict sysplDistrict) {
+        return districtDao.findByParent ( sysplDistrict );
     }
 
     private boolean findIsParent(SysplDistrict district) {

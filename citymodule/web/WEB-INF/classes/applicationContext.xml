@@ -65,11 +65,12 @@
             <tx:method name="update*"/>
             <tx:method name="del*"/>
             <tx:method name="save*"/>
+            <tx:method name="*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
     <!-- 切面 -->
     <aop:config>
-        <aop:pointcut expression="execution(* com.service.*..*(..))" id="mypointcut"/>
+        <aop:pointcut expression="execution(* com.service.*..*(..)) || execution(* com.dao.*..*(..))" id="mypointcut"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="mypointcut"/>
     </aop:config>
 

@@ -10,6 +10,7 @@
 
     <bean id="cityAction" class="com.action.MyCityAction">
         <property name="cityService" ref="cityService" />
+        <property name="districtService" ref="districtService" />
     </bean>
 
     <bean id="districtAction" class="com.action.DistrictAction">

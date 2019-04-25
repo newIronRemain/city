@@ -16,4 +16,6 @@ public interface ICityDao {
     City find(String name, String code, String type);
 
     List <City> findChild(City city);
+
+    List <City> findByHql(String s);
 }

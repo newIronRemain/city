@@ -54,4 +54,9 @@ public class CityDaoImpl extends HibernateDaoSupport implements ICityDao {
         List <City> list = (List <City>) template.find ( "FROM City where city =?", city );
         return list;
     }
+
+    @Override
+    public List <City> findByHql(String s) {
+        return (List <City>) this.getHibernateTemplate ().find ( s );
+    }
 }

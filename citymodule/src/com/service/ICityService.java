@@ -13,4 +13,6 @@ public interface ICityService {
     void save(List<City> cityList);
 
     City find(String name, String code, String type);
+
+    List<City> findByHql(String sql);
 }

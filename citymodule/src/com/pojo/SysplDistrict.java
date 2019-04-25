@@ -278,4 +278,14 @@ public class SysplDistrict implements java.io.Serializable {
 	public static long getSerialVersionUID() {
 		return serialVersionUID;
 	}
+
+	private String districtNameEN;
+
+	public String getDistrictNameEN() {
+		return districtNameEN;
+	}
+
+	public void setDistrictNameEN(String districtNameEN) {
+		this.districtNameEN = districtNameEN;
+	}
 }

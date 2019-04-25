@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="ztree/zTreeStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="css/jquery.zbmulselect.css"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="ztree/js/jquery.ztree.core.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/jquery.zbmulselect.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div style="width: 800px;margin: 0px auto;">
+    <button onclick="getRigthValues()"> 获取右侧数据</button>
+    <button onclick="getExchangeValues()"> 获取右侧改变数据</button>
+</div>
+<div class="muls-box">
+    <div class="muls-left-box">
+        <div class="muls-top">
+            <p>左侧可选项</p>
+        </div>
+        <div class="muls-content">
+            <ul id="treeDemoL" class="ztree"></ul>
+        </div>
+    </div>
+
+    <div class="muls-box-btn">
+        <button class="muls-btn muls-btn-mid muls-btn-mid-1" id="addtoR">&gt;</button>
+        <button class="muls-btn muls-btn-mid" id="removeL">&lt;</button>
+        <button class="muls-btn muls-btn-mid" id="addAll">&gt;&gt;</button>
+        <button class="muls-btn muls-btn-mid" id="removeAll">&lt;&lt;</button>
+    </div>
+
+    <div class="muls-right-box">
+        <div class="muls-top">
+            <p>右侧选择项</p>
+        </div>
+        <div class="muls-content">
+            <select id="muls-select" multiple="multiple" class="muls-content-select">
+
+            </select>
+        </div>
+    </div>
+
+</div>
+<br />
+
+
+
+</body>
+<script src="json/districtTreeData_new.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function(){
+
+        // $.ajax({
+        //     type: "POST",
+        //     url: "city_getCityTree.action",
+        //
+        //     success: function(msg){
+        //         alert(  msg );
+        //     }
+        // });
+
+
+        $(document).zbMulSelect({
+            initDataL: districtTreeData_new,
+            //initDataR: TestData2,
+            //initDataR: TestData2,
+        });
+    });
+
+    function getRigthValues(){
+        alert(JSON.stringify($(document).zbMulSelect('getData')));
+    }
+
+    function getExchangeValues(){
+        alert(JSON.stringify($(document).zbMulSelect('getExchange')));
+    }
+
+</script>
+</html>
